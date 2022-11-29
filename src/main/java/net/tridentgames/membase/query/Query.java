@@ -1,24 +1,15 @@
 package net.tridentgames.membase.query;
 
-public interface Query
-{
-    /**
-     * Build query definition
-     *
-     * @return definition
-     */
-    QueryDefinition build();
+import org.jetbrains.annotations.NotNull;
 
-    /**
-     * Create a new query
-     *
-     * @param indexName    index name
-     * @param valueToMatch value to match
-     * @return query
-     */
-    static BasicQuery where(final String indexName, final Object valueToMatch) {
-        final QueryImpl query = new QueryImpl();
-        query.and(indexName, valueToMatch);
-        return query;
+public sealed interface Query permits SimpleQuery, AdvancedQuery {
+    static @NotNull SimpleQuery simpleQuery() {
+        return new SimpleQuery();
     }
+
+    static @NotNull AdvancedQuery advancedQuery() {
+        return new AdvancedQuery();
+    }
+
+    boolean isMatch(final String indexName, Object value);
 }

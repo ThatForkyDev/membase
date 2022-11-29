@@ -1,4 +1,4 @@
-package net.tridentgames.membase.query;
+package net.tridentgames.membase.queryold;
 
 public interface BasicQuery extends Query, AndQuery, OrQuery
 {

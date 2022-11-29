@@ -1,4 +1,4 @@
-package net.tridentgames.membase.query;
+package net.tridentgames.membase.queryold;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ import net.tridentgames.membase.index.IndexDefinition;
 import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.reducer.Reducer;
-import net.tridentgames.membase.query.Query;
+import net.tridentgames.membase.queryold.Query;
 import org.jetbrains.annotations.Nullable;
 
 /**
