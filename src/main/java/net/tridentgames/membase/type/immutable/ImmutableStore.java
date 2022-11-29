@@ -13,7 +13,7 @@ import net.tridentgames.membase.index.IndexDefinition;
 import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.reducer.Reducer;
-import net.tridentgames.membase.queryold.Query;
+import net.tridentgames.membase.query.Query;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -56,26 +56,6 @@ public class ImmutableStore<V> implements Store<V> {
     @Override
     public <K> Index<V> index(final KeyMapper<K, V> keyMapper, final Reducer<K, V> reducer) throws IndexException {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<V> get(final String indexName, final Object key, final Integer limit) {
-        return this.store.get(indexName, key, limit);
-    }
-
-    @Override
-    public List<V> get(final String indexName, final Object key) {
-        return this.store.get(indexName, key);
-    }
-
-    @Override
-    public V getFirst(final String indexName, final Object key) {
-        return this.store.getFirst(indexName, key);
-    }
-
-    @Override
-    public Optional<V> findFirst(final String indexName, final Object key) {
-        return this.store.findFirst(indexName, key);
     }
 
     @Override

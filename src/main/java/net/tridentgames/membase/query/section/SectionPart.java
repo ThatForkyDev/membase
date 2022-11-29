@@ -4,10 +4,10 @@ import net.tridentgames.membase.query.enums.IndexOperator;
 
 public class SectionPart {
     private final String key;
-    private final String value;
+    private final Object value;
     private final IndexOperator operator;
 
-    public SectionPart(final String key, final String value, final IndexOperator operator) {
+    public SectionPart(final String key, final Object value, final IndexOperator operator) {
         this.key = key;
         this.value = value;
         this.operator = operator;
@@ -17,7 +17,7 @@ public class SectionPart {
         return this.key;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return this.value;
     }
 

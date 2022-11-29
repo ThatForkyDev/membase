@@ -44,6 +44,11 @@ public final class AdvancedQuery implements Query {
         return false;
     }
 
+    @Override
+    public List<Section> getSections() {
+        return this.sections;
+    }
+
     public List<Section> build() {
         return this.sections;
     }

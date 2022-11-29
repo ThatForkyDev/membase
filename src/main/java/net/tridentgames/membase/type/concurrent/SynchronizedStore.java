@@ -14,7 +14,7 @@ import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.SynchronizedIndex;
 import net.tridentgames.membase.index.reducer.Reducer;
-import net.tridentgames.membase.queryold.Query;
+import net.tridentgames.membase.query.Query;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -162,50 +162,6 @@ public class SynchronizedStore<V> implements Store<V> {
         }
 
         return index;
-    }
-
-    @Override
-    public List<V> get(final String indexName, final Object key, final Integer limit) {
-        final List<V> results;
-
-        synchronized (this.mutex) {
-            results = this.store.get(indexName, key, limit);
-        }
-
-        return results;
-    }
-
-    @Override
-    public List<V> get(final String indexName, final Object key) {
-        final List<V> results;
-
-        synchronized (this.mutex) {
-            results = this.store.get(indexName, key);
-        }
-
-        return results;
-    }
-
-    @Override
-    public V getFirst(final String indexName, final Object key) {
-        final V result;
-
-        synchronized (this.mutex) {
-            result = this.store.getFirst(indexName, key);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Optional<V> findFirst(final String indexName, final Object key) {
-        final Optional<V> result;
-
-        synchronized (this.mutex) {
-            result = this.store.findFirst(indexName, key);
-        }
-
-        return result;
     }
 
     @Override

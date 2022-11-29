@@ -16,10 +16,10 @@ import net.tridentgames.membase.index.Index;
 import net.tridentgames.membase.index.IndexDefinition;
 import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.IndexManager;
-import net.tridentgames.membase.queryold.IndexMatch;
-import net.tridentgames.membase.queryold.Operator;
-import net.tridentgames.membase.queryold.Query;
-import net.tridentgames.membase.queryold.QueryDefinition;
+import net.tridentgames.membase.query.Query;
+import net.tridentgames.membase.query.section.Section;
+import net.tridentgames.membase.query.section.SectionOperator;
+import net.tridentgames.membase.query.section.SectionPart;
 import net.tridentgames.membase.reference.Reference;
 import net.tridentgames.membase.reference.ReferenceManager;
 import org.jetbrains.annotations.Nullable;
@@ -35,25 +35,44 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
 
     @Override
     public List<V> get(final Query query, @Nullable final Integer limit) {
-        final QueryDefinition definition = query.build();
-        final List<IndexMatch> indexMatches = definition.getIndexMatches();
-        final Operator operator = definition.getOperator();
         final Set<Reference<V>> results = new LinkedHashSet<>();
 
-        boolean firstMatch = true;
+        for (final Section section : query.getSections()) {
+            boolean firstMatch = true;
 
-        for (final IndexMatch indexMatch : indexMatches) {
-            final Set<Reference<V>> references = Optional.ofNullable(this.indexManager.getIndex(indexMatch.getIndexName()))
-                .map(index -> index.getReferences(indexMatch.getKey()))
-                .orElse(Collections.emptySet());
+            for (final SectionPart part : section.getParts()) {
+                final Set<Reference<V>> references = Optional.ofNullable(this.indexManager.getIndex(part.getKey()))
+                    .map(index -> index.getReferences(part.getValue()))
+                    .orElse(Collections.emptySet());
 
-            if (firstMatch || operator == Operator.OR) {
-                results.addAll(references);
-                firstMatch = false;
-            } else {
-                results.retainAll(references);
+                if (firstMatch || section.getOperator() == SectionOperator.OR) {
+                    results.addAll(references);
+                    firstMatch = false;
+                } else {
+                    results.retainAll(references);
+                }
             }
         }
+
+        //final QueryDefinition definition = query.build();
+        //final List<IndexMatch> indexMatches = definition.getIndexMatches();
+        //final Operator operator = definition.getOperator();
+        //final Set<Reference<V>> results = new LinkedHashSet<>();
+        //
+        //boolean firstMatch = true;
+        //
+        //for (final IndexMatch indexMatch : indexMatches) {
+        //    final Set<Reference<V>> references = Optional.ofNullable(this.indexManager.getIndex(indexMatch.getIndexName()))
+        //        .map(index -> index.getReferences(indexMatch.getKey()))
+        //        .orElse(Collections.emptySet());
+        //
+        //    if (firstMatch || operator == Operator.OR) {
+        //        results.addAll(references);
+        //        firstMatch = false;
+        //    } else {
+        //        results.retainAll(references);
+        //    }
+        //}
 
         return results.stream()
             .map(Reference::get)
@@ -150,7 +169,7 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
 
     @Override
     public boolean add(final V item) {
-        return this.add(item);
+        return this.addAll(Collections.singleton(item));
     }
 
     @Override

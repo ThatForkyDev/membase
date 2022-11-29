@@ -1,5 +1,7 @@
 package net.tridentgames.membase.query;
 
+import java.util.List;
+import net.tridentgames.membase.query.section.Section;
 import org.jetbrains.annotations.NotNull;
 
 public sealed interface Query permits SimpleQuery, AdvancedQuery {
@@ -12,4 +14,6 @@ public sealed interface Query permits SimpleQuery, AdvancedQuery {
     }
 
     boolean isMatch(final String indexName, Object value);
+
+    List<Section> getSections();
 }

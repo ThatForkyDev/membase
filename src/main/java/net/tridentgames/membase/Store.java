@@ -12,7 +12,7 @@ import net.tridentgames.membase.index.IndexDefinition;
 import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.reducer.Reducer;
-import net.tridentgames.membase.queryold.Query;
+import net.tridentgames.membase.query.Query;
 import net.tridentgames.membase.type.concurrent.SynchronizedStore;
 import net.tridentgames.membase.type.immutable.ImmutableStore;
 import org.jetbrains.annotations.Nullable;
@@ -100,55 +100,6 @@ public interface Store<V> extends Collection<V> {
      */
     default <K> Index<V> index(final KeyMapper<K, V> keyMapper) throws IndexException {
         return this.index(IndexDefinition.withKeyMapping(keyMapper));
-    }
-
-    /**
-     * Query an index by name and lookup the given key. This method is the equivalent of calling {@link #getIndex(String)}
-     * and then {@link Index#get(Object)}
-     *
-     * @param indexName name of the index to query
-     * @param key       key to lookup
-     * @param limit     limit results to the first x number of items
-     * @return values associated with this key or an empty list
-     */
-    default List<V> get(final String indexName, final Object key, final Integer limit) {
-        return this.get(Query.where(indexName, key), limit);
-    }
-
-    /**
-     * Query an index by name and lookup the given key. This method is the equivalent of calling {@link #getIndex(String)}
-     * and then {@link Index#get(Object)}
-     *
-     * @param indexName name of the index to query
-     * @param key       key to lookup
-     * @return values associated with this key or an empty list
-     */
-    default List<V> get(final String indexName, final Object key) {
-        return this.get(Query.where(indexName, key), null);
-    }
-
-    /**
-     * Query an index by name and lookup the given key. This method is the equivalent of calling {@link #getIndex(String)}
-     * and then {@link Index#getFirst(Object)}
-     *
-     * @param indexName name of the index to query
-     * @param key       key to lookup
-     * @return first value associated with this key or null
-     */
-    default V getFirst(final String indexName, final Object key) {
-        return this.getFirst(Query.where(indexName, key));
-    }
-
-    /**
-     * Query an index by name and lookup the given key. This method is the equivalent of calling {@link #getIndex(String)}
-     * and then {@link Index#findFirst(Object)}
-     *
-     * @param indexName name of the index to query
-     * @param key       key to lookup
-     * @return first value associated with this key or an empty optional
-     */
-    default Optional<V> findFirst(final String indexName, final Object key) {
-        return Optional.ofNullable(this.getFirst(indexName, key));
     }
 
     /**
