@@ -25,8 +25,8 @@ import net.tridentgames.membase.reference.ReferenceManager;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractStore<V> extends AbstractCollection<V> implements Store<V> {
-    private final ReferenceManager<V> referenceManager;
-    private final IndexManager<V> indexManager;
+    protected final ReferenceManager<V> referenceManager;
+    protected final IndexManager<V> indexManager;
 
     protected AbstractStore(final ReferenceManager<V> referenceManager, final IndexManager<V> indexManager) {
         this.referenceManager = referenceManager;

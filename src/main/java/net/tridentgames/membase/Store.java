@@ -3,8 +3,11 @@ package net.tridentgames.membase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import net.tridentgames.membase.index.Index;
@@ -12,6 +15,8 @@ import net.tridentgames.membase.index.IndexDefinition;
 import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.reducer.Reducer;
+import net.tridentgames.membase.listener.RemovalListener;
+import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.query.Query;
 import net.tridentgames.membase.type.concurrent.SynchronizedStore;
 import net.tridentgames.membase.type.immutable.ImmutableStore;
@@ -275,6 +280,19 @@ public interface Store<V> extends Collection<V> {
     default Store<V> immutableStore() {
         return new ImmutableStore<>(this);
     }
+
+    /**
+     * Returns an unmodifiable view of the specified collection. This method allows
+     * modules to provide users with "read-only" access to internal
+     * collections. Query operations on the returned collection "read through"
+     * the specified collection, and attempts to modify the returned
+     * collection, whether direct or via its iterator, result in an
+     * <tt>UnsupportedOperationException</tt>.<p>
+     *
+     * @param collection the collection for which an unmodifiable view is to be returned.
+     * @return an unmodifiable view of the specified collection.
+     */
+    Map<RemovalType, Set<RemovalListener<V>>> getRemovalListeners();
 
     /**
      * Returns a synchronized (thread-safe) map Store backed by this store.

@@ -1,10 +1,13 @@
 package net.tridentgames.membase.type.immutable;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import net.tridentgames.membase.Store;
@@ -13,6 +16,8 @@ import net.tridentgames.membase.index.IndexDefinition;
 import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.reducer.Reducer;
+import net.tridentgames.membase.listener.RemovalListener;
+import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.query.Query;
 import org.jetbrains.annotations.Nullable;
 
@@ -136,6 +141,11 @@ public class ImmutableStore<V> implements Store<V> {
     @Override
     public Store<V> immutableStore() {
         return this;
+    }
+
+    @Override
+    public Map<RemovalType, Set<RemovalListener<V>>> getRemovalListeners() {
+        return Collections.emptyMap();
     }
 
     @Override

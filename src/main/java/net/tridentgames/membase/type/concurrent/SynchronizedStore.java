@@ -3,7 +3,10 @@ package net.tridentgames.membase.type.concurrent;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,8 @@ import net.tridentgames.membase.index.IndexException;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.SynchronizedIndex;
 import net.tridentgames.membase.index.reducer.Reducer;
+import net.tridentgames.membase.listener.RemovalListener;
+import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.query.Query;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SynchronizedStore<V> implements Store<V> {
     private final Store<V> store;
+    private final Map<RemovalType, Set<RemovalListener<V>>> removalListeners = new ConcurrentHashMap<>();
     private final Object mutex;
 
     public SynchronizedStore(final Store<V> store) {
@@ -238,6 +244,11 @@ public class SynchronizedStore<V> implements Store<V> {
         }
 
         return copy;
+    }
+
+    @Override
+    public Map<RemovalType, Set<RemovalListener<V>>> getRemovalListeners() {
+        return this.removalListeners;
     }
 
     @Override

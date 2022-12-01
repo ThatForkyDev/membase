@@ -1,7 +1,10 @@
-package net.tridentgames.membase.memory;
+package net.tridentgames.membase.type.memory;
 
 import java.util.Collection;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import net.tridentgames.membase.AbstractStore;
 import net.tridentgames.membase.Store;
 import net.tridentgames.membase.identity.DefaultIdentityProvider;
@@ -10,6 +13,9 @@ import net.tridentgames.membase.index.IndexManager;
 import net.tridentgames.membase.index.KeyMapper;
 import net.tridentgames.membase.index.ReferenceIndexManager;
 import net.tridentgames.membase.index.reducer.Reducer;
+import net.tridentgames.membase.listener.RemovalListener;
+import net.tridentgames.membase.listener.enums.RemovalType;
+import net.tridentgames.membase.memory.MemoryReferenceFactory;
 import net.tridentgames.membase.reference.DefaultReferenceManager;
 import net.tridentgames.membase.reference.ReferenceManager;
 
@@ -19,6 +25,8 @@ import net.tridentgames.membase.reference.ReferenceManager;
  * @param <V> type of item referenced
  */
 public class MemoryStore<V> extends AbstractStore<V> {
+    private Map<RemovalType, Set<RemovalListener<V>>> removalListeners = new HashMap<>();
+
     private MemoryStore(final ReferenceManager<V> referenceManager, final IndexManager<V> indexManager) {
         super(referenceManager, indexManager);
     }
@@ -56,6 +64,11 @@ public class MemoryStore<V> extends AbstractStore<V> {
      */
     public static <V> Builder<V> newStore() {
         return new Builder<>();
+    }
+
+    @Override
+    public Map<RemovalType, Set<RemovalListener<V>>> getRemovalListeners() {
+        return this.removalListeners;
     }
 
     public static class Builder<V> {
