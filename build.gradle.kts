@@ -9,14 +9,15 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
-//    implementation("junit:junit:4.13.2")
-//    implementation("org.assertj:assertj-core:3.23.1")
-//    implementation("eu.codearte.catch-exception:catch-exception:2.0")
-//    implementation("org.mockito:mockito-core:4.8.0")
-//    implementation("com.carrotsearch:junit-benchmarks:0.7.2")
-//    implementation("com.fasterxml.jackson.core:jackson-annotations:2.14.0")
-//    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
-//    implementation("nl.jqno.equalsverifier:equalsverifier:2.2.1")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation("eu.codearte.catch-exception:catch-exception:2.0")
+    testImplementation("org.mockito:mockito-core:4.8.0")
+    testImplementation("com.carrotsearch:junit-benchmarks:0.7.2")
+    testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.14.0")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
+    testImplementation("nl.jqno.equalsverifier:equalsverifier:2.2.1")
 }
 
 tasks {

@@ -11,7 +11,16 @@ This is a developer API not meant to be used by end-users.
 - [License](#license)
 
 ## Usage
-Coming soon.
+Gradle:
+```groovy
+repositories {
+    maven { url "https://nexus.tridentgames.net/repository/public/" }
+}
+
+dependencies {
+    implementation("com.github.tridentgames:memstore:1.0.0")
+}
+```
 
 ## Why Membase?
 Memory is a very fast storage medium, although it is an expensive option sometimes it's just required.
