@@ -1,4 +1,4 @@
-package test.modal;
+package net.tridentgames.test.modal;
 
 public enum Gender
 {
