@@ -3,6 +3,8 @@ package net.tridentgames.membase.index;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class SynchronizedIndex<T> implements Index<T> {
     private final Index<T> index;
@@ -14,7 +16,7 @@ public class SynchronizedIndex<T> implements Index<T> {
     }
 
     @Override
-    public T getFirst(final Object key) {
+    public @Nullable T getFirst(final Object key) {
         final T result;
 
         synchronized (this.mutex) {
@@ -25,7 +27,7 @@ public class SynchronizedIndex<T> implements Index<T> {
     }
 
     @Override
-    public Optional<T> findFirst(final Object key) {
+    public @NotNull Optional<T> findFirst(final Object key) {
         final Optional<T> result;
 
         synchronized (this.mutex) {

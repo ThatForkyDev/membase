@@ -2,6 +2,8 @@ package net.tridentgames.membase.reference;
 
 import java.util.Collection;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The reference managed is internal to a store and should not be exposed outside the class. It is responsible
@@ -9,8 +11,7 @@ import java.util.Optional;
  *
  * @param <T> type of item referenced
  */
-public interface ReferenceManager<T>
-{
+public interface ReferenceManager<T> {
     /**
      * Return all references as a collection. This MUST return a modifiable collection.
      *
@@ -45,14 +46,14 @@ public interface ReferenceManager<T>
      * @param item item to on to reference manager
      * @return reference
      */
-    Reference<T> add(T item);
+    @Nullable Reference<T> add(T item);
 
     /**
      * Create a copy of the reference manager
      *
      * @return copy
      */
-    ReferenceManager<T> copy();
+    @NotNull ReferenceManager<T> copy();
 
     /**
      * Remove item in store
@@ -60,5 +61,5 @@ public interface ReferenceManager<T>
      * @param item item to remove
      * @return reference removed
      */
-    Reference<T> remove(Object item);
+    @Nullable Reference<T> remove(Object item);
 }

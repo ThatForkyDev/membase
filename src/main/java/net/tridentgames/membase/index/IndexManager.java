@@ -19,7 +19,7 @@ public abstract class IndexManager<V> {
         indexes.forEach(index -> this.indexMap.put(index.getName(), index));
     }
 
-    public <K> ReferenceIndex<K, V> createIndex(final String indexName, final IndexDefinition<K, V> indexDefinition, final Collection<Reference<V>> references) {
+    public <K> ReferenceIndex<K, V> createIndex(String indexName, IndexDefinition<K, V> indexDefinition, Collection<Reference<V>> references) {
         if (this.indexMap.containsKey(indexName)) {
             throw new IllegalArgumentException("An index already exists with this name");
         }

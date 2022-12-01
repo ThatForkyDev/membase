@@ -14,7 +14,7 @@ public interface ComparisonPolicy<T> {
      * @param clazz class to check for support
      * @return true if supported
      */
-    boolean supports(Class<?> clazz);
+    boolean supports(@NotNull Class<?> clazz);
 
     /**
      * Transform the given item into the comparable type

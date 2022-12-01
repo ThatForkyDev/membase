@@ -19,6 +19,7 @@ import net.tridentgames.membase.index.reducer.Reducer;
 import net.tridentgames.membase.listener.RemovalListener;
 import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.query.Query;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -189,7 +190,7 @@ public class ImmutableStore<V> implements Store<V> {
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
+    public boolean containsAll(@NotNull Collection<?> collection) {
         return this.store.containsAll(collection);
     }
 
@@ -199,17 +200,17 @@ public class ImmutableStore<V> implements Store<V> {
     }
 
     @Override
-    public boolean removeAll(final Collection<?> collection) {
+    public boolean removeAll(@NotNull Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean removeIf(final Predicate<? super V> filter) {
+    public boolean removeIf(@NotNull Predicate<? super V> filter) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(final Collection<?> collection) {
+    public boolean retainAll(@NotNull Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 
@@ -229,7 +230,7 @@ public class ImmutableStore<V> implements Store<V> {
             return true;
         }
 
-        if (obj == null || this.getClass() != obj.getClass()) {
+        if (Objects.isNull(obj) || this.getClass() != obj.getClass()) {
             return false;
         }
 

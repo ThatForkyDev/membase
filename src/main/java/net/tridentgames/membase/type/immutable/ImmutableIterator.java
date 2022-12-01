@@ -1,11 +1,12 @@
 package net.tridentgames.membase.type.immutable;
 
 import java.util.Iterator;
+import org.jetbrains.annotations.NotNull;
 
 public class ImmutableIterator<V> implements Iterator<V> {
     private final Iterator<V> iterator;
 
-    public ImmutableIterator(final Iterator<V> iterator) {
+    public ImmutableIterator(@NotNull Iterator<V> iterator) {
         this.iterator = iterator;
     }
 

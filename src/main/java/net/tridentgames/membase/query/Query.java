@@ -13,7 +13,7 @@ public sealed interface Query permits SimpleQuery, AdvancedQuery {
         return new AdvancedQuery();
     }
 
-    boolean isMatch(final String indexName, Object value);
+    boolean isMatch(@NotNull String indexName, @NotNull Object value);
 
     List<Section> getSections();
 }

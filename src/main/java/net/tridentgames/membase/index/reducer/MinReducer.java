@@ -3,6 +3,8 @@ package net.tridentgames.membase.index.reducer;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Reduces all elements for a key retaining the min value
@@ -20,7 +22,7 @@ public non-sealed class MinReducer<K, V> extends ComparingReducer<K, V> {
     }
 
     @Override
-    protected int compare(final Object value1, final Object value2, final Comparator<Object> comparator, final boolean nullGreater) {
+    protected int compare(@Nullable Object value1, @Nullable Object value2, @NotNull Comparator<Object> comparator, boolean nullGreater) {
         if (value1 == value2) {
             return 0;
         }

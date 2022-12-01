@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import net.tridentgames.membase.identity.IdentityProvider;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An implementation of reference manager that maintains unique references
@@ -39,7 +41,7 @@ public class DefaultReferenceManager<V> implements ReferenceManager<V> {
     public Optional<Reference<V>> findReference(final Object item) {
         final Object identity = this.identityProvider.getIdentity(item);
 
-        if (identity == null) {
+        if (Objects.isNull(identity)) {
             return Optional.empty();
         }
 
@@ -57,10 +59,10 @@ public class DefaultReferenceManager<V> implements ReferenceManager<V> {
     }
 
     @Override
-    public Reference<V> add(final V item) {
+    public @Nullable Reference<V> add(final V item) {
         final Object identity = this.identityProvider.getIdentity(item);
 
-        if (identity == null) {
+        if (Objects.isNull(identity)) {
             return null;
         }
 
@@ -76,15 +78,15 @@ public class DefaultReferenceManager<V> implements ReferenceManager<V> {
     }
 
     @Override
-    public ReferenceManager<V> copy() {
+    public @NotNull ReferenceManager<V> copy() {
         return new DefaultReferenceManager<>(this.identityProvider, this.referenceFactory, this.referenceMap);
     }
 
     @Override
-    public Reference<V> remove(final Object item) {
+    public @Nullable Reference<V> remove(@NotNull Object item) {
         final Object identity = this.identityProvider.getIdentity(item);
 
-        if (identity == null) {
+        if (Objects.isNull(identity)) {
             return null;
         }
 

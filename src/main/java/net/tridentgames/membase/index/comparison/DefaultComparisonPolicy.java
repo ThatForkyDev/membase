@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DefaultComparisonPolicy<V> implements ComparisonPolicy<V> {
     @Override
-    public boolean supports(final Class<?> clazz) {
+    public boolean supports(@NotNull Class<?> clazz) {
         return true;
     }
 

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,12 +39,12 @@ public class SynchronizedStore<V> implements Store<V> {
     }
 
     @Override
-    public Index<V> getIndex(final String indexName) {
+    public @Nullable Index<V> getIndex(final String indexName) {
         final Index<V> index;
 
         synchronized (this.mutex) {
             final Index<V> found = this.store.getIndex(indexName);
-            index = found == null ? null : new SynchronizedIndex<>(found, this.mutex);
+            index = Objects.isNull(found) ? null : new SynchronizedIndex<>(found, this.mutex);
         }
 
         return index;

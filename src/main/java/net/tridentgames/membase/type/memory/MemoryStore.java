@@ -18,6 +18,7 @@ import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.memory.MemoryReferenceFactory;
 import net.tridentgames.membase.reference.DefaultReferenceManager;
 import net.tridentgames.membase.reference.ReferenceManager;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * In memory implementation of a {@link Store}
@@ -52,7 +53,7 @@ public class MemoryStore<V> extends AbstractStore<V> {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return this.getReferenceManager().getReferences().toString();
     }
 
@@ -78,38 +79,38 @@ public class MemoryStore<V> extends AbstractStore<V> {
             this.store = new MemoryStore<>();
         }
 
-        public Builder<V> withValue(final V value) {
+        public @NotNull Builder<V> withValue(final V value) {
             this.store.add(value);
             return this;
         }
 
-        public Builder<V> withValues(final Collection<V> values) {
+        public @NotNull Builder<V> withValues(final Collection<V> values) {
             this.store.addAll(values);
             return this;
         }
 
         @SafeVarargs
-        public final Builder<V> withValues(final V... values) {
+        public final @NotNull Builder<V> withValues(final V... values) {
             this.store.addAll(values);
             return this;
         }
 
-        public <K> Builder<V> withIndex(final String indexName, final KeyMapper<K, V> keyMapper) {
+        public @NotNull <K> Builder<V> withIndex(final String indexName, final KeyMapper<K, V> keyMapper) {
             this.store.index(indexName, keyMapper);
             return this;
         }
 
-        public final <K> Builder<V> withIndex(final String indexName, final KeyMapper<K, V> keyMapper, final Reducer<K, V> reducer) {
+        public @NotNull <K> Builder<V> withIndex(final String indexName, final KeyMapper<K, V> keyMapper, final Reducer<K, V> reducer) {
             this.store.index(indexName, keyMapper, reducer);
             return this;
         }
 
-        public final <K> Builder<V> withIndex(final String indexName, final IndexDefinition<K, V> indexDefinition) {
+        public @NotNull <K> Builder<V> withIndex(final String indexName, final IndexDefinition<K, V> indexDefinition) {
             this.store.index(indexName, indexDefinition);
             return this;
         }
 
-        public final MemoryStore<V> build() {
+        public final @NotNull MemoryStore<V> build() {
             return this.store;
         }
     }

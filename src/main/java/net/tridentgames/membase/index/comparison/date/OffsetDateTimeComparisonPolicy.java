@@ -11,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public class OffsetDateTimeComparisonPolicy implements ComparisonPolicy<OffsetDateTime> {
     @Override
-    public boolean supports(final Class<?> clazz) {
+    public boolean supports(@NotNull Class<?> clazz) {
         return clazz == OffsetDateTime.class;
     }
 
     @Override
-    public @NotNull OffsetDateTime createComparable(final OffsetDateTime offsetDateTime) {
+    public @NotNull OffsetDateTime createComparable(@NotNull OffsetDateTime offsetDateTime) {
         return offsetDateTime.withOffsetSameInstant(ZoneOffset.UTC);
     }
 }

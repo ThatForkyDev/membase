@@ -3,6 +3,8 @@ package net.tridentgames.membase.policy.type;
 import java.util.concurrent.TimeUnit;
 import net.tridentgames.membase.policy.Policy;
 import net.tridentgames.membase.policy.type.TimedExpiringPolicy.TimedExpirationData;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class TimedExpiringPolicy<V> implements Policy<V, TimedExpirationData> {
     private final TimeUnit unit;
@@ -16,7 +18,7 @@ public class TimedExpiringPolicy<V> implements Policy<V, TimedExpirationData> {
     }
 
     @Override
-    public String key() {
+    public @NotNull String key() {
         return "timed";
     }
 
@@ -37,7 +39,7 @@ public class TimedExpiringPolicy<V> implements Policy<V, TimedExpirationData> {
     }
 
     @Override
-    public TimedExpirationData createExpirationData(final V value) {
+    public @Nullable TimedExpirationData createExpirationData(final V value) {
         return new TimedExpirationData();
     }
 
@@ -45,7 +47,7 @@ public class TimedExpiringPolicy<V> implements Policy<V, TimedExpirationData> {
         return this.duration;
     }
 
-    public TimeUnit getUnit() {
+    public @NotNull TimeUnit getUnit() {
         return this.unit;
     }
 

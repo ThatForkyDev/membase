@@ -3,6 +3,7 @@ package net.tridentgames.membase.index.reducer;
 import java.util.List;
 
 import net.tridentgames.membase.index.Element;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Reduces elements a key once the configured limit has been reached
@@ -14,13 +15,13 @@ public class LimitReducer<K, V> implements Reducer<K, V> {
     private final int limit;
     private final Retain retain;
 
-    public LimitReducer(final int limit, final Retain retain) {
+    public LimitReducer(int limit, @NotNull Retain retain) {
         this.limit = limit;
         this.retain = retain;
     }
 
     @Override
-    public void reduce(final K key, final List<Element<V>> elements) {
+    public void reduce(final K key, @NotNull List<Element<V>> elements) {
         if (elements.size() <= this.limit) {
             return;
         }
@@ -32,13 +33,13 @@ public class LimitReducer<K, V> implements Reducer<K, V> {
         }
     }
 
-    private void reduceNewest(final List<Element<V>> elements) {
+    private void reduceNewest(@NotNull List<Element<V>> elements) {
         for (int i = 0; i < (elements.size() - this.limit); i++) {
             elements.get(i).remove();
         }
     }
 
-    private void reduceOldest(final List<Element<V>> elements) {
+    private void reduceOldest(@NotNull List<Element<V>> elements) {
         for (int i = this.limit; i < elements.size(); i++) {
             elements.get(i).remove();
         }

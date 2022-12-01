@@ -12,7 +12,7 @@ public final class AdvancedQuery implements Query {
     private final List<Section> sections = new ArrayList<>();
 
     @SafeVarargs
-    public final AdvancedQuery and(@NotNull final UnaryOperator<SimpleQuery>... queries) {
+    public final @NotNull AdvancedQuery and(@NotNull UnaryOperator<SimpleQuery>... queries) {
         final List<SectionPart> parts = new ArrayList<>();
 
         for (final UnaryOperator<SimpleQuery> query : queries) {
@@ -26,7 +26,7 @@ public final class AdvancedQuery implements Query {
     }
 
     @SafeVarargs
-    public final AdvancedQuery or(@NotNull final UnaryOperator<SimpleQuery>... queries) {
+    public final @NotNull AdvancedQuery or(@NotNull UnaryOperator<SimpleQuery>... queries) {
         final List<SectionPart> parts = new ArrayList<>();
 
         for (final UnaryOperator<SimpleQuery> query : queries) {
@@ -40,16 +40,16 @@ public final class AdvancedQuery implements Query {
     }
 
     @Override
-    public boolean isMatch(String indexName, Object value) {
+    public boolean isMatch(@NotNull String indexName, @NotNull Object value) {
         return false;
     }
 
     @Override
-    public List<Section> getSections() {
+    public @NotNull List<Section> getSections() {
         return this.sections;
     }
 
-    public List<Section> build() {
+    public @NotNull List<Section> build() {
         return this.sections;
     }
 }

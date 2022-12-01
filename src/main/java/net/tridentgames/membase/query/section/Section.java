@@ -2,31 +2,33 @@ package net.tridentgames.membase.query.section;
 
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class Section {
     private final List<SectionPart> parts;
     private final SectionOperator operator;
 
-    public Section(final SectionPart part, final SectionOperator operator) {
+    public Section(@NotNull SectionPart part, @NotNull SectionOperator operator) {
         this(Collections.singletonList(part), operator);
     }
 
-    public Section(final List<SectionPart> parts, final SectionOperator operator) {
+    public Section(@NotNull List<SectionPart> parts, @NotNull SectionOperator operator) {
         this.parts = parts;
         this.operator = operator;
     }
 
-    public List<SectionPart> getParts() {
+    public @NotNull List<SectionPart> getParts() {
         return this.parts;
     }
 
-    public SectionOperator getOperator() {
+    public @NotNull SectionOperator getOperator() {
         return this.operator;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
+
         for (final SectionPart part : this.parts) {
             builder
                 .append(part.getKey())

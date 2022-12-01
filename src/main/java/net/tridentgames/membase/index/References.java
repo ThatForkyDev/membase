@@ -4,12 +4,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.tridentgames.membase.index.reducer.Reducer;
 import net.tridentgames.membase.reference.Reference;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 public class References<K, V> {
     private final K key;
@@ -17,26 +21,26 @@ public class References<K, V> {
     private final Set<Reference<V>> references;
     private Set<Reference<V>> reducedReferences;
 
-    private References(final K key, final Set<Reference<V>> references, final Collection<Reference<V>> reducedReferences, final Reducer<K, V> reducer) {
+    private References(@NotNull K key, @NotNull Set<Reference<V>> references, @NotNull Collection<Reference<V>> reducedReferences, @Nullable Reducer<K, V> reducer) {
         this.key = key;
         this.references = new LinkedHashSet<>(references);
         this.reducedReferences = new LinkedHashSet<>(reducedReferences);
         this.reducer = reducer;
     }
 
-    public References(final K key, final Reference<V> reference, final Reducer<K, V> reducer) {
+    public References(@NotNull K key, @NotNull Reference<V> reference, @Nullable Reducer<K, V> reducer) {
         this(key, Collections.singleton(reference), Collections.emptySet(), reducer);
         this.reducedReferences.add(reference);
         this.reducedReferences = this.reduce(this.reducedReferences);
     }
 
-    public void add(final Reference<V> reference) {
+    public void add(@NotNull Reference<V> reference) {
         this.references.add(reference);
         this.reducedReferences.add(reference);
         this.reducedReferences = this.reduce(this.reducedReferences);
     }
 
-    public void remove(final Reference<V> reference) {
+    public void remove(@NotNull Reference<V> reference) {
         this.references.remove(reference);
 
         if (this.reducedReferences.contains(reference)) {
@@ -44,11 +48,11 @@ public class References<K, V> {
         }
     }
 
-    public Set<Reference<V>> getAllReferences() {
+    public @NotNull @Unmodifiable Set<Reference<V>> getAllReferences() {
         return Collections.unmodifiableSet(this.reducedReferences);
     }
 
-    public List<V> getAll() {
+    public @NotNull List<V> getAll() {
         return this.reducedReferences.stream().map(Reference::get).collect(Collectors.toList());
     }
 
@@ -64,8 +68,8 @@ public class References<K, V> {
         return new References<>(this.key, this.references, this.reducedReferences, this.reducer);
     }
 
-    private Set<Reference<V>> reduce(final Set<Reference<V>> references) {
-        if (this.reducer == null) {
+    private @NotNull Set<Reference<V>> reduce(final Set<Reference<V>> references) {
+        if (Objects.isNull(this.reducer)) {
             return references;
         }
 

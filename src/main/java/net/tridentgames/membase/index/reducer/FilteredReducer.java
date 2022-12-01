@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class FilteredReducer<K, V> implements Reducer<K, V> {
     private final Predicate<V> predicate;
 
-    public FilteredReducer(final @NotNull Predicate<V> predicate) {
+    public FilteredReducer(@NotNull Predicate<V> predicate) {
         this.predicate = predicate;
     }
 

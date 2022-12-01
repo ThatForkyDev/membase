@@ -7,32 +7,33 @@ import net.tridentgames.membase.query.enums.IndexOperator;
 import net.tridentgames.membase.query.section.Section;
 import net.tridentgames.membase.query.section.SectionOperator;
 import net.tridentgames.membase.query.section.SectionPart;
+import org.jetbrains.annotations.NotNull;
 
 public final class SimpleQuery implements Query {
     private IndexOperator operator;
     private String indexName;
     private Object value;
 
-    public SimpleQuery contains(final String indexName, final String value) {
+    public @NotNull SimpleQuery contains(@NotNull String indexName, @NotNull String value) {
         this.operator = IndexOperator.CONTAINS;
         this.indexName = indexName;
         this.value = value;
         return this;
     }
 
-    public SimpleQuery where(final String indexName, final Object value) {
+    public @NotNull SimpleQuery where(@NotNull String indexName, @NotNull Object value) {
         this.operator = IndexOperator.EQUALS;
         this.indexName = indexName;
         this.value = value;
         return this;
     }
 
-    public SectionPart asPart() {
+    public @NotNull SectionPart asPart() {
         return new SectionPart(this.indexName, this.value, this.operator);
     }
 
     @Override
-    public boolean isMatch(String indexName, Object value) {
+    public boolean isMatch(@NotNull String indexName, @NotNull Object value) {
         return false;
     }
 
@@ -41,7 +42,7 @@ public final class SimpleQuery implements Query {
         return Collections.singletonList(this.build());
     }
 
-    public Section build() {
+    public @NotNull Section build() {
         return new Section(this.asPart(), SectionOperator.AND);
     }
 }

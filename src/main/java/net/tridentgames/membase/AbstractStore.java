@@ -22,6 +22,7 @@ import net.tridentgames.membase.query.section.SectionOperator;
 import net.tridentgames.membase.query.section.SectionPart;
 import net.tridentgames.membase.reference.Reference;
 import net.tridentgames.membase.reference.ReferenceManager;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractStore<V> extends AbstractCollection<V> implements Store<V> {
@@ -53,26 +54,6 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
                 }
             }
         }
-
-        //final QueryDefinition definition = query.build();
-        //final List<IndexMatch> indexMatches = definition.getIndexMatches();
-        //final Operator operator = definition.getOperator();
-        //final Set<Reference<V>> results = new LinkedHashSet<>();
-        //
-        //boolean firstMatch = true;
-        //
-        //for (final IndexMatch indexMatch : indexMatches) {
-        //    final Set<Reference<V>> references = Optional.ofNullable(this.indexManager.getIndex(indexMatch.getIndexName()))
-        //        .map(index -> index.getReferences(indexMatch.getKey()))
-        //        .orElse(Collections.emptySet());
-        //
-        //    if (firstMatch || operator == Operator.OR) {
-        //        results.addAll(references);
-        //        firstMatch = false;
-        //    } else {
-        //        results.retainAll(references);
-        //    }
-        //}
 
         return results.stream()
             .map(Reference::get)
@@ -173,7 +154,7 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
     }
 
     @Override
-    public boolean remove(final Object obj) {
+    public boolean remove(@Nullable Object obj) {
         final Reference<V> reference = this.referenceManager.remove(obj);
 
         if (reference != null) {
@@ -191,11 +172,11 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
     }
 
     @Override
-    public Store<V> copy() {
+    public @NotNull Store<V> copy() {
         return this.createCopy(this.referenceManager, this.indexManager);
     }
 
-    protected abstract Store<V> createCopy(final ReferenceManager<V> referenceManager, final IndexManager<V> indexManager);
+    protected abstract @NotNull Store<V> createCopy(final ReferenceManager<V> referenceManager, final IndexManager<V> indexManager);
 
     protected ReferenceManager<V> getReferenceManager() {
         return this.referenceManager;

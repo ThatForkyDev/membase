@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import net.tridentgames.membase.index.comparison.ComparisonPolicy;
 import net.tridentgames.membase.index.reducer.Reducer;
 import net.tridentgames.membase.reference.Reference;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -48,7 +49,7 @@ public class ReferenceIndex<K, V> implements Index<V> {
     }
 
     @Override
-    public Optional<V> findFirst(final Object key) {
+    public @NotNull Optional<V> findFirst(final Object key) {
         final K comparableKey = this.getComparableKey(key);
         final References<K, V> references = this.keyToReferencesMap.get(comparableKey);
 
@@ -59,11 +60,11 @@ public class ReferenceIndex<K, V> implements Index<V> {
         return references.findFirst();
     }
 
-    public Set<Reference<V>> getReferences(final Object key) {
+    public @NotNull Set<Reference<V>> getReferences(final Object key) {
         final K comparableKey = this.getComparableKey(key);
         final References<K, V> references = this.keyToReferencesMap.get(comparableKey);
 
-        if (references == null) {
+        if (Objects.isNull(references)) {
             return Collections.emptySet();
         }
 
@@ -96,7 +97,7 @@ public class ReferenceIndex<K, V> implements Index<V> {
     public void removeIndex(final Reference<V> reference) {
         final Set<K> keys = this.referenceToKeysMap.get(reference);
 
-        if (keys == null) {
+        if (Objects.isNull(keys)) {
             return;
         }
 

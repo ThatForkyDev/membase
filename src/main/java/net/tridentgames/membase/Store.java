@@ -20,6 +20,7 @@ import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.query.Query;
 import net.tridentgames.membase.type.concurrent.SynchronizedStore;
 import net.tridentgames.membase.type.immutable.ImmutableStore;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -153,7 +154,7 @@ public interface Store<V> extends Collection<V> {
      * @param indexName name of index to lookup
      * @return index
      */
-    Index<V> getIndex(String indexName);
+    @Nullable Index<V> getIndex(String indexName);
 
     /**
      * Get all indexes
@@ -265,7 +266,7 @@ public interface Store<V> extends Collection<V> {
      *
      * @return copy
      */
-    Store<V> copy();
+    @NotNull Store<V> copy();
 
     /**
      * Returns an unmodifiable view of this store. This method allows

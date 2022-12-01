@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -30,13 +31,14 @@ import net.tridentgames.membase.policy.Policy;
 import net.tridentgames.membase.policy.Policy.ExpirationData;
 import net.tridentgames.membase.type.expiring.thread.ExpirationThread;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ExpiringMemoryStore<V> extends AbstractStore<V> implements ExpiringStore<V> {
     private final List<Policy<V, ? extends ExpirationData>> policies = new ArrayList<>();
     private final Map<RemovalType, Set<RemovalListener<V>>> removalListeners;
     private final Map<Policy<V, ?>, Map<V, ? extends ExpirationData>> policyData;
 
-    private ExpiringMemoryStore(@NotNull final ReferenceManager<V> referenceManager, @NotNull final IndexManager<V> indexManager, @NotNull final Map<RemovalType, Set<RemovalListener<V>>> removalListeners, @NotNull Map<Policy<V, ?>, Map<V, ? extends ExpirationData>> policyData) {
+    private ExpiringMemoryStore(@NotNull ReferenceManager<V> referenceManager, @NotNull IndexManager<V> indexManager, @NotNull Map<RemovalType, Set<RemovalListener<V>>> removalListeners, @NotNull Map<Policy<V, ?>, Map<V, ? extends ExpirationData>> policyData) {
         super(referenceManager, indexManager);
 
         this.removalListeners = removalListeners;
@@ -112,7 +114,7 @@ public class ExpiringMemoryStore<V> extends AbstractStore<V> implements Expiring
     }
 
     @Override
-    public void addPolicy(Policy<V, ?> policy) {
+    public void addPolicy(@NotNull Policy<V, ?> policy) {
         this.policies.add(policy);
 
         if (policy instanceof TimedExpiringPolicy timedExpiringPolicy) {
@@ -131,7 +133,7 @@ public class ExpiringMemoryStore<V> extends AbstractStore<V> implements Expiring
     }
 
     @Override
-    public boolean remove(final Object obj) {
+    public boolean remove(@Nullable Object obj) {
         final boolean removed = super.remove(obj);
         if (removed) {
             this.getRemovalListeners()
@@ -179,7 +181,8 @@ public class ExpiringMemoryStore<V> extends AbstractStore<V> implements Expiring
 
         for (final Policy policy : this.policies) {
             final ExpirationData data = this.policyData.get(policy).get(value);
-            if (data == null) {
+
+            if (Objects.isNull(data)) {
                 continue;
             }
 

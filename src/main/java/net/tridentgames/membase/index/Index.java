@@ -2,6 +2,8 @@ package net.tridentgames.membase.index;
 
 import java.util.List;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Index applied to a {@link net.tridentgames.membase.Store}
@@ -15,7 +17,7 @@ public interface Index<V> {
      * @param key indexed key to lookup
      * @return optional
      */
-    default V getFirst(final Object key) {
+    default @Nullable V getFirst(final Object key) {
         return this.findFirst(key).orElse(null);
     }
 
@@ -25,7 +27,7 @@ public interface Index<V> {
      * @param key indexed key to lookup
      * @return optional
      */
-    Optional<V> findFirst(final Object key);
+    @NotNull Optional<V> findFirst(final Object key);
 
     /**
      * Find all indexed items matching key

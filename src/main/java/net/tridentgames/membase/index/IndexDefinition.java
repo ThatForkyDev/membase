@@ -3,9 +3,11 @@ package net.tridentgames.membase.index;
 import java.util.Collection;
 import java.util.Collections;
 
+import java.util.Objects;
 import net.tridentgames.membase.index.comparison.ComparisonPolicy;
 import net.tridentgames.membase.index.comparison.DefaultComparisonPolicy;
 import net.tridentgames.membase.index.reducer.Reducer;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Definition of an index to be created
@@ -59,10 +61,10 @@ public final class IndexDefinition<K, V> {
      * @param <V>       value type
      * @return index build
      */
-    public static <K, V> IndexDefinition<K, V> withKeyMapping(final KeyMapper<K, V> keyMapper) {
+    public static @NotNull <K, V> IndexDefinition<K, V> withKeyMapping(final KeyMapper<K, V> keyMapper) {
         return withKeyMappings(value -> {
             final K key = keyMapper.map(value);
-            return key == null ? Collections.emptyList() : Collections.singletonList(key);
+            return Objects.isNull(key) ? Collections.emptyList() : Collections.singletonList(key);
         });
     }
 

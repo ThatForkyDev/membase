@@ -5,8 +5,7 @@ package net.tridentgames.membase.reference;
  *
  * @param <V> type of item referenced
  */
-public interface Reference<V>
-{
+public interface Reference<V> {
     /**
      * Get referenced item
      *

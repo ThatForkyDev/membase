@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CaseInsensitiveComparisonPolicy implements ComparisonPolicy<String> {
     @Override
-    public boolean supports(final Class<?> clazz) {
+    public boolean supports(@NotNull Class<?> clazz) {
         return clazz == String.class;
     }
 
     @Override
-    public @NotNull String createComparable(final String item) {
+    public @NotNull String createComparable(@NotNull String item) {
         return item.toLowerCase(Locale.getDefault());
     }
 }

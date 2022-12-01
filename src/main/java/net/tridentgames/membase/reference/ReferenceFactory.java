@@ -5,8 +5,7 @@ package net.tridentgames.membase.reference;
  *
  * @param <V> value type
  */
-public interface ReferenceFactory<V>
-{
+public interface ReferenceFactory<V> {
     /**
      * Create a reference for the given object
      *
