@@ -117,6 +117,8 @@ public interface Store<V> extends Collection<V> {
      */
     List<V> get(final Query query, @Nullable final Integer limit);
 
+    boolean remove(@NotNull Query query);
+
     /**
      * Query indexes and look up all  matching value.
      *

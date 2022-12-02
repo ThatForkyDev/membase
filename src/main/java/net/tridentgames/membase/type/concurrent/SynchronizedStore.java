@@ -21,6 +21,7 @@ import net.tridentgames.membase.index.reducer.Reducer;
 import net.tridentgames.membase.listener.RemovalListener;
 import net.tridentgames.membase.listener.enums.RemovalType;
 import net.tridentgames.membase.query.Query;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -180,6 +181,17 @@ public class SynchronizedStore<V> implements Store<V> {
         }
 
         return results;
+    }
+
+    @Override
+    public boolean remove(@NotNull Query query) {
+        final boolean removed;
+
+        synchronized (this.mutex) {
+            removed = this.store.remove(query);
+        }
+
+        return removed;
     }
 
     @Override

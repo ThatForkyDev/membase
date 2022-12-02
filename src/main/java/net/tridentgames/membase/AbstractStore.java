@@ -62,6 +62,17 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
     }
 
     @Override
+    public boolean remove(@NotNull Query query) {
+        final List<V> results = this.get(query, null);
+
+        for (final V result : results) {
+            this.remove(result);
+        }
+
+        return !results.isEmpty();
+    }
+
+    @Override
     public <K> Index<V> index(final String indexName, final IndexDefinition<K, V> indexDefinition) throws IndexException {
         return this.indexManager.createIndex(indexName, indexDefinition, this.referenceManager.getReferences());
     }
