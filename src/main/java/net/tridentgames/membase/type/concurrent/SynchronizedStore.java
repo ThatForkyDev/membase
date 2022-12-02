@@ -184,8 +184,8 @@ public class SynchronizedStore<V> implements Store<V> {
     }
 
     @Override
-    public boolean remove(@NotNull Query query) {
-        final boolean removed;
+    public List<V> remove(@NotNull Query query) {
+        final List<V> removed;
 
         synchronized (this.mutex) {
             removed = this.store.remove(query);

@@ -62,14 +62,14 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
     }
 
     @Override
-    public boolean remove(@NotNull Query query) {
+    public List<V> remove(@NotNull Query query) {
         final List<V> results = this.get(query, null);
 
         for (final V result : results) {
             this.remove(result);
         }
 
-        return !results.isEmpty();
+        return results;
     }
 
     @Override

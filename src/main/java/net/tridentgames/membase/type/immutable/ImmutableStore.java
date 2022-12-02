@@ -70,7 +70,7 @@ public class ImmutableStore<V> implements Store<V> {
     }
 
     @Override
-    public boolean remove(@NotNull Query query) {
+    public List<V> remove(@NotNull Query query) {
         throw new UnsupportedOperationException();
     }
 
