@@ -50,6 +50,7 @@ Special Thanks To:
 -------------
 
 [![YourKit-Logo](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/)
+
 [YourKit](https://www.yourkit.com/) support open source projects of all kinds, with their elegant and innotative tools to help you profile your applications to give them an amazing edge with knowing what is performing optimally and what needs work, they also provide YouMonitor which helps you with build management to make a better CI/CD environment, without the sleepless nights. We thank them for granting us with an Open Source Software license so we can make our software the best it can be!
 
 [.NET Profiler](https://www.yourkit.com/.net/profiler)
