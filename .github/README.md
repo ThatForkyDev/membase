@@ -46,7 +46,6 @@ This library was initially created by [JParams](https://github.com/jparams).
 This project is licensed under the [Apache License Version 2.0](../LICENSE).
 
 ## Special Thanks
--------------
 
 [![YourKit-Logo](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/)
 
