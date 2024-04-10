@@ -76,6 +76,10 @@ public abstract class IndexManager<V> {
         final List<IndexCreationException> exceptions = new ArrayList<>();
 
         for (final Reference<T> reference : references) {
+            if (reference == null) {
+                continue;
+            }
+
             for (final ReferenceIndex<?, T> index : indexes) {
                 try {
                     index.index(reference);
@@ -87,6 +91,11 @@ public abstract class IndexManager<V> {
 
         if (!exceptions.isEmpty()) {
             final String message = (exceptions.size() == 1 ? "1 exception" : exceptions.size() + " exceptions") + " occurred during indexing";
+
+            for (final IndexCreationException exception : exceptions) {
+                exception.printStackTrace();
+            }
+
             throw new IndexException(message, exceptions);
         }
     }

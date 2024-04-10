@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <K> key type
  * @param <V> value type
  */
-public non-sealed class MinReducer<K, V> extends ComparingReducer<K, V> {
+public class MinReducer<K, V> extends ComparingReducer<K, V> {
     public <C extends Comparable<? super C>> MinReducer(final Function<V, C> valueProvider, final boolean nullGreater) {
         super(valueProvider, nullGreater);
     }

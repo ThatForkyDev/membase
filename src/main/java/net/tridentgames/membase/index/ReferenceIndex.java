@@ -3,12 +3,14 @@ package net.tridentgames.membase.index;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import net.tridentgames.membase.index.comparison.ComparisonPolicy;
@@ -40,7 +42,7 @@ public class ReferenceIndex<K, V> implements Index<V> {
     }
 
     public ReferenceIndex(final String indexName, final KeyMapper<Collection<K>, V> keyMapper, final Reducer<K, V> reducer, final ComparisonPolicy<K> comparisonPolicy) {
-        this(indexName, keyMapper, reducer, comparisonPolicy, new HashMap<>(), new HashMap<>());
+        this(indexName, keyMapper, reducer, comparisonPolicy, new ConcurrentHashMap<>(), new ConcurrentHashMap<>());
     }
 
     @Override
@@ -105,10 +107,12 @@ public class ReferenceIndex<K, V> implements Index<V> {
             final References<K, V> references = this.keyToReferencesMap.get(key);
 
             if (reference != null) {
-                references.remove(reference);
+                if (references != null) {
+                    references.remove(reference);
 
-                if (references.isEmpty()) {
-                    this.keyToReferencesMap.remove(key);
+                    if (references.isEmpty()) {
+                        this.keyToReferencesMap.remove(key);
+                    }
                 }
             }
         }
@@ -137,16 +141,32 @@ public class ReferenceIndex<K, V> implements Index<V> {
         try {
             item = reference.get();
         } catch (final RuntimeException e) {
+            e.printStackTrace();
             throw new IndexCreationException("Index: " + this.name + ". Unable to retrieve item to index", e);
         }
 
         try {
-            return this.keyMapper.map(item)
-                .stream()
-                .map(this::getComparableKey)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+            final Set<K> set = new HashSet<>();
+
+            for (final K key : this.keyMapper.map(item)) {
+                final K value = this.getComparableKey(key);
+
+                if (value == null) {
+                    continue;
+                }
+
+                if (value instanceof Collection<?>) {
+                    final Collection<? extends K> collection = (Collection<? extends K>) value;
+                    set.addAll(collection);
+                    continue;
+                }
+
+                set.add(value);
+            }
+
+            return set;
         } catch (final RuntimeException e) {
+            e.printStackTrace();
             throw new IndexCreationException("Index: " + this.name + ". Error generating indexes for item: " + item, e);
         }
     }
@@ -155,6 +175,10 @@ public class ReferenceIndex<K, V> implements Index<V> {
     private @Nullable K getComparableKey(final Object key) {
         if (Objects.isNull(key) || !this.comparisonPolicy.supports(key.getClass())) {
             return null;
+        }
+
+        if (key instanceof Collection<?>) {
+            return (K) key;
         }
 
         return this.comparisonPolicy.createComparable((K) key);

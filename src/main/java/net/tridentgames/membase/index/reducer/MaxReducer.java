@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <K> key type
  * @param <V> value type
  */
-public non-sealed class MaxReducer<K, V> extends ComparingReducer<K, V> {
+public class MaxReducer<K, V> extends ComparingReducer<K, V> {
     public <C extends Comparable<? super C>> MaxReducer(final Function<V, C> valueProvider, final boolean nullGreater) {
         super(valueProvider, nullGreater);
     }

@@ -14,6 +14,10 @@ public interface Policy<V, T extends ExpirationData> {
         return null;
     }
 
+    default boolean isNullable() {
+        return true;
+    }
+
     default BiPredicate<V, T> checkExpiration() {
         return this::checkExpiration;
     }

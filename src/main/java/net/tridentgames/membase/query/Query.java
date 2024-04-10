@@ -4,7 +4,7 @@ import java.util.List;
 import net.tridentgames.membase.query.section.Section;
 import org.jetbrains.annotations.NotNull;
 
-public sealed interface Query permits SimpleQuery, AdvancedQuery {
+public interface Query {
     static @NotNull SimpleQuery simpleQuery() {
         return new SimpleQuery();
     }

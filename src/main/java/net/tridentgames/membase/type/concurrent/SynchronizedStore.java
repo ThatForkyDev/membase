@@ -30,9 +30,9 @@ import org.jetbrains.annotations.Nullable;
  * @param <V> value type
  */
 public class SynchronizedStore<V> implements Store<V> {
-    private final Store<V> store;
-    private final Map<RemovalType, Set<RemovalListener<V>>> removalListeners = new ConcurrentHashMap<>();
-    private final Object mutex;
+    protected final Store<V> store;
+    protected final Map<RemovalType, Set<RemovalListener<V>>> removalListeners = new ConcurrentHashMap<>();
+    protected final Object mutex;
 
     public SynchronizedStore(final Store<V> store) {
         this.store = store;
@@ -85,7 +85,9 @@ public class SynchronizedStore<V> implements Store<V> {
         final boolean removed;
 
         synchronized (this.mutex) {
-            if (index instanceof SynchronizedIndex<V> synchronizedIndex) {
+            if (index instanceof SynchronizedIndex) {
+                final SynchronizedIndex<V> synchronizedIndex = (SynchronizedIndex<V>) index;
+
                 removed = this.store.removeIndex(synchronizedIndex.getIndex());
             } else {
                 removed = this.store.removeIndex(index);

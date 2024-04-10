@@ -2,7 +2,9 @@ package net.tridentgames.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import net.tridentgames.membase.Store;
 import net.tridentgames.membase.policy.type.TimedExpiringPolicy;
@@ -13,6 +15,7 @@ import net.tridentgames.membase.type.memory.MemoryStore;
 import net.tridentgames.membase.query.Query;
 import net.tridentgames.test.modal.Person;
 import net.tridentgames.test.modal.SimplePerson;
+import org.assertj.core.util.Sets;
 import org.junit.Test;
 
 public class StoreTests {
@@ -28,6 +31,29 @@ public class StoreTests {
 
         assertThat(result).isNotNull();
         assertThat(result2).isNull();
+    }
+
+    @Test
+    public void simpleContains() {
+        final ExpiringMemoryStore<SimplePerson> store = new ExpiringMemoryStore<>();
+        store.index("drinks", SimplePerson::getDrinks);
+        store.index("name", SimplePerson::getFirstName);
+
+        final Set<String> drinks = new HashSet<>();
+        drinks.add("Coffee");
+        store.add(new SimplePerson("John", "Doe", 21, Sets.newHashSet(drinks)));
+
+        final SimplePerson result = store.getFirst(Query.simpleQuery().where("drinks", "Coffee"));
+        System.out.println("First: " + result);
+
+
+
+        final MemoryStore<SimplePerson> temp = new MemoryStore<>();
+        temp.index("drinks", SimplePerson::getDrinks);
+        temp.add(new SimplePerson("John", "Doe", 21, Sets.newHashSet(drinks)));
+
+        final SimplePerson result2 = temp.getFirst(Query.simpleQuery().where("drinks", "Coffee"));
+        System.out.println("Second: " + result2);
     }
 
     @Test

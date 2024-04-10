@@ -7,7 +7,7 @@ import java.util.function.Function;
 import net.tridentgames.membase.index.Element;
 
 @SuppressWarnings("unchecked")
-public abstract sealed class ComparingReducer<K, V> implements Reducer<K, V> permits MinReducer, MaxReducer {
+public abstract class ComparingReducer<K, V> implements Reducer<K, V> {
     private final Function<V, ?> valueProvider;
     private final Comparator<Object> comparator;
     private final boolean nullGreater;

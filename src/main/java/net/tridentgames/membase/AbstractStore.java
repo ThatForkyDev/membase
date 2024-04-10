@@ -64,10 +64,22 @@ public abstract class AbstractStore<V> extends AbstractCollection<V> implements 
     @Override
     public List<V> remove(@NotNull Query query) {
         final List<V> results = this.get(query, null);
+        this.removeAll(results);
 
         for (final V result : results) {
-            this.remove(result);
+            final Reference<V> reference = this.referenceManager.remove(result);
+
+            if (reference != null) {
+                this.indexManager.removeReference(reference);
+            }
         }
+
+        //for (final V result : results) {
+        //
+        //    //if (!this.remove(result)) {
+        //    //    System.err.println("Failed to remove: " + result);
+        //    //}
+        //}
 
         return results;
     }

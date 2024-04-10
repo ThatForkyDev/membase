@@ -43,6 +43,11 @@ public class TimedExpiringPolicy<V> implements Policy<V, TimedExpirationData> {
         return new TimedExpirationData();
     }
 
+    @Override
+    public boolean isNullable() {
+        return false;
+    }
+
     public long getDuration() {
         return this.duration;
     }
